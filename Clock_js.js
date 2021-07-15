@@ -34,10 +34,10 @@ function setup() {
   b = PI / 12;
   start = 3 * PI / 2;
   
-  numbers[0] = new Number(2*width/40, height/6);
-  numbers[1] = new Number(5*width/40, height/6);
-  numbers[2] = new Number(9*width/40, height/6);
-  numbers[3] = new Number(12*width/40, height/6);
+  numbers[0] = new Number(2*width/40, 3*height/6);
+  numbers[1] = new Number(5*width/40, 3*height/6);
+  numbers[2] = new Number(9*width/40, 3*height/6);
+  numbers[3] = new Number(12*width/40, 3*height/6);
 }
 
 function draw() {
@@ -106,8 +106,8 @@ function digital(){
   
   //dots
   stroke(255);
-  point(7*width/40, height/6 - 0.8*u);
-  point(7*width/40, height/6 + 0.8*u);
+  point(7*width/40, 3*height/6 - 0.8*u);
+  point(7*width/40, 3*height/6 + 0.8*u);
 }
 
 class Number{
