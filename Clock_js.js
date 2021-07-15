@@ -15,6 +15,9 @@ let s;
 
 let u = 50;
 let numbers = [];
+let d;
+
+let weekday=new Array(7);
 
 function setup() {
   createCanvas(windowWidth, windowHeight);  
@@ -38,6 +41,14 @@ function setup() {
   numbers[1] = new Number(5*width/40, height/6);
   numbers[2] = new Number(9*width/40, height/6);
   numbers[3] = new Number(12*width/40, height/6);
+  
+  weekday[0]="Monday";
+  weekday[1]="Tuesday";
+  weekday[2]="Wednesday";
+  weekday[3]="Thursday";
+  weekday[4]="Friday";
+  weekday[5]="Saturday";
+  weekday[6]="Sunday";
 }
 
 function draw() {
@@ -45,6 +56,7 @@ function draw() {
   s = second();
   m = minute() + (s / 60);
   h = hour() + (m / 60);
+  d = new Date();
   digital();
   clock();  
 }
@@ -52,7 +64,8 @@ function draw() {
 function clock(){
   translate(2*width / 3, height / 2);
   strokeWeight(height / 40);
-    
+  noFill();
+  
   //lines
   stroke(255);
   for (let i = 0; i < 12; i++) {
@@ -85,6 +98,13 @@ function clock(){
 }
 
 function digital(){
+  textAlign(LEFT, BOTTOM);
+  noStroke();
+  fill(255);
+  textSize(120);
+  text(weekday[d.getDay()-1],2*width/40-u, height);
+  
+  
   //hours
   if(hour() < 10){
     numbers[0].update(10);
