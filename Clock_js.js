@@ -5,6 +5,14 @@ let lh;
 let lm;
 let ls;
 
+let a;
+let b;
+let start;
+
+let h;
+let m;
+let s;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   strokeWeight(height / 40);
@@ -16,18 +24,19 @@ function setup() {
   lh = height / 5;
   lm = height / 4;
   ls = height / (10/3);
+  
+  a = PI / 30;
+  b = PI / 12;
+  start = 3 * PI / 2;
 }
 
 function draw() {
   translate(width / 2, height / 2);
   background(0);
   
-  let a = PI / 30;
-  let b = PI / 12;
-  let s = second();
-  let m = minute() + (s / 60);
-  let h = hour() + (m / 60);
-  let start = 3 * PI / 2;
+  s = second();
+  m = minute() + (s / 60);
+  h = hour() + (m / 60);
     
   //lines
   stroke(255);
