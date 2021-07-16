@@ -102,7 +102,7 @@ function digital(){
   noStroke();
   fill(255);
   textSize(120);
-  text(weekday[d.getDay()-1],2*width/40-u, height);
+  //text(weekday[d.getDay()-1],2*width/40-u, height);
   
   
   //hours
