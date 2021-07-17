@@ -92,7 +92,6 @@ function digital(){
     numbers[0].update(10);
   }else{
     numbers[0].update(floor(hour()/10));
-    numbers[0].update(8);
   }
   numbers[1].update(hour() - floor(hour()/10)*10);  
   
