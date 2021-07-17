@@ -122,8 +122,6 @@ function digital(){
   stroke(255);
   point(5.5*u, height/7 - 0.8*u);
   point(5.5*u, height/7 + 0.8*u);
-  //point(11.25*u, height/7 - 0.5*u + u);
-  //point(11.25*u, height/7 + 0.5*u + u);
 }
 
 class Number{
