@@ -15,16 +15,12 @@ let s;
 
 let u = 50;
 let numbers = [];
-let d;
-
-let weekday=new Array(7);
 
 function setup() {
   createCanvas(windowWidth, windowHeight);  
   noFill(); 
-  print(width);
   
-  u = width/30
+  u = width/40;
   
   rh = height / (4/3);
   rm = height / (40/33);
@@ -37,18 +33,12 @@ function setup() {
   b = PI / 12;
   start = 3 * PI / 2;
   
-  numbers[0] = new Number(2*width/40, height/6);
-  numbers[1] = new Number(5*width/40, height/6);
-  numbers[2] = new Number(9*width/40, height/6);
-  numbers[3] = new Number(12*width/40, height/6);
-  
-  weekday[0]="Monday";
-  weekday[1]="Tuesday";
-  weekday[2]="Wednesday";
-  weekday[3]="Thursday";
-  weekday[4]="Friday";
-  weekday[5]="Saturday";
-  weekday[6]="Sunday";
+  numbers[0] = new Number(1.5*u, height/7, u);
+  numbers[1] = new Number(4*u, height/7, u);
+  numbers[2] = new Number(7*u, height/7, u);
+  numbers[3] = new Number(9.5*u, height/7, u);
+  numbers[4] = new Number(11.5*u, height/7 + u, 0.5*u);
+  numbers[5] = new Number(13*u, height/7 + u, 0.5*u);
 }
 
 function draw() {
@@ -56,7 +46,6 @@ function draw() {
   s = second();
   m = minute() + (s / 60);
   h = hour() + (m / 60);
-  d = new Date();
   digital();
   clock();  
 }
@@ -98,18 +87,12 @@ function clock(){
 }
 
 function digital(){
-  textAlign(LEFT, BOTTOM);
-  noStroke();
-  fill(255);
-  textSize(120);
-  //text(weekday[d.getDay()-1],2*width/40-u, height);
-  
-  
   //hours
   if(hour() < 10){
     numbers[0].update(10);
   }else{
     numbers[0].update(floor(hour()/10));
+    numbers[0].update(8);
   }
   numbers[1].update(hour() - floor(hour()/10)*10);  
   
@@ -120,25 +103,40 @@ function digital(){
     numbers[2].update(floor(minute()/10));
   }
   numbers[3].update(minute() - floor(minute()/10)*10);  
+  
+  
+  //seconds
+  if(second() < 10){
+    numbers[4].update(0);
+  }else{
+    numbers[4].update(floor(second()/10));
+  }
+  numbers[5].update(second() - floor(second()/10)*10);  
+  
+  //show numbers
   for(let number of numbers){
     number.show();
   }
   
   //dots
+  strokeWeight(u/3);
   stroke(255);
-  point(7*width/40, height/6 - 0.8*u);
-  point(7*width/40, height/6 + 0.8*u);
+  point(5.5*u, height/7 - 0.8*u);
+  point(5.5*u, height/7 + 0.8*u);
+  //point(11.25*u, height/7 - 0.5*u + u);
+  //point(11.25*u, height/7 + 0.5*u + u);
 }
 
 class Number{
-  constructor(x, y){
+  constructor(x, y, p){
     this.x = x;
     this.y = y;
     this.n = 8;
+    this.u = p;
   }
   
   show(){
-    strokeWeight(u/3);
+    strokeWeight(this.u/3);
     
     //1
     if(this.n == 0||this.n == 2||this.n == 3||this.n == 5||this.n == 6||this.n == 7||this.n == 8||this.n == 9){
@@ -146,49 +144,49 @@ class Number{
     }else{
       noStroke();
     }
-    line(this.x - (0.6*u), this.y - (2*u), this.x + (0.6*u), this.y - (2*u));
+    line(this.x - (0.6*this.u), this.y - (2*this.u), this.x + (0.6*this.u), this.y - (2*this.u));
     //2
     if(this.n == 0||this.n == 4||this.n == 5||this.n == 6||this.n == 8||this.n == 9){
       stroke(255);
     }else{
       noStroke();
     }
-    line(this.x - (0.8*u), this.y - (1.6*u), this.x - (0.8*u), this.y - (0.4*u));
+    line(this.x - (0.8*this.u), this.y - (1.6*this.u), this.x - (0.8*this.u), this.y - (0.4*this.u));
     //3
     if(this.n == 0||this.n == 1||this.n == 2||this.n == 3||this.n == 4||this.n == 7||this.n == 8||this.n == 9){
       stroke(255);
     }else{
       noStroke();
     }
-    line(this.x + (0.8*u), this.y - (1.6*u), this.x + (0.8*u), this.y - (0.4*u));
+    line(this.x + (0.8*this.u), this.y - (1.6*this.u), this.x + (0.8*this.u), this.y - (0.4*this.u));
     //4
     if(this.n == 2||this.n == 3||this.n == 4||this.n == 5||this.n == 6||this.n == 8||this.n == 9){
       stroke(255);
     }else{
       noStroke();
     }
-    line(this.x - (0.6*u), this.y, this.x + (0.6*u), this.y);
+    line(this.x - (0.6*this.u), this.y, this.x + (0.6*this.u), this.y);
     //5
     if(this.n == 0||this.n == 2||this.n == 6||this.n == 8){
       stroke(255);
     }else{
       noStroke();
     }
-    line(this.x - (0.8*u), this.y + (0.4*u), this.x - (0.8*u), this.y + (1.6*u));
+    line(this.x - (0.8*this.u), this.y + (0.4*this.u), this.x - (0.8*this.u), this.y + (1.6*this.u));
     //6
     if(this.n == 0||this.n == 1 ||this.n == 3||this.n == 4||this.n == 5||this.n == 6||this.n == 7||this.n == 8||this.n == 9){
       stroke(255);
     }else{
       noStroke();
     }
-    line(this.x + (0.8*u), this.y + (0.4*u), this.x + (0.8*u), this.y + (1.6*u));
+    line(this.x + (0.8*this.u), this.y + (0.4*this.u), this.x + (0.8*this.u), this.y + (1.6*this.u));
     //7
     if(this.n == 0||this.n == 2||this.n == 3||this.n == 5||this.n == 6||this.n == 8||this.n == 9){
       stroke(255);
     }else{
       noStroke();
     }
-    line(this.x - (0.6*u), this.y + (2*u), this.x + (0.6*u), this.y + (2*u));
+    line(this.x - (0.6*this.u), this.y + (2*this.u), this.x + (0.6*this.u), this.y + (2*this.u));
   }
   update(n){
     this.n = n;
