@@ -42,7 +42,7 @@ function setup() {
 }
 
 function draw() {
-  background(0);
+  background(127, 0, 0);
   s = second();
   m = minute() + (s / 60);
   h = hour() + (m / 60);
@@ -68,7 +68,7 @@ function clock(){
         
   //hours
   angle = b * h * 2 + start;
-  stroke(150, 0, 0);
+  stroke(0);
   line(0, 0, lh*cos(angle), lh*sin(angle));
   arc(0, 0, rh, rh, start, angle);
 
