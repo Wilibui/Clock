@@ -80,6 +80,7 @@ function clock(){
 
   //seconds
   angle = a * s + start;
+  angle += map((millis() - floor(millis()/1000)*1000),0, 1000, 0, 2*PI/60); 
   stroke(0, 0, 150);
   line(0, 0, ls*cos(angle), ls*sin(angle));
   arc(0, 0, rs, rs, start, angle);
