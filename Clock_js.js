@@ -8,10 +8,14 @@ let ls;
 let a;
 let b;
 let start;
+let sS;
+let sSm;
+let sM;
 
 let h;
 let m;
 let s;
+let d;
 
 let u = 50;
 let numbers = [];
@@ -20,18 +24,20 @@ function setup() {
   createCanvas(windowWidth, windowHeight);  
   noFill(); 
   
-  u = width/40;
-  
+  u = width/40; 
   rh = height / (4/3);
   rm = height / (40/33);
   rs = height / (10/9);
   lh = height / 5;
   lm = height / 4;
   ls = height / (10/3);
+  sS = second(); 
+  sM = millis();
   
   a = PI / 30;
   b = PI / 12;
   start = 3 * PI / 2;
+  sSm = map(sS, 0, 60, start, start + TWO_PI);
   
   numbers[0] = new Numbers(1.5*u, height/7, u);
   numbers[1] = new Numbers(4*u, height/7, u);
@@ -53,7 +59,35 @@ function draw() {
   h = hour() + (m/60);
   
   digital();
-  clock();  
+    
+  days();
+  clock();
+}
+
+function days(){
+  let date = new Date();
+  let D = date.getDay();
+  if(D == 1){
+    d = "Maandag";
+  }else if(D == 2){
+    d = "Dinsdag";
+  }else if(D == 3){
+    d = "Woensdag";
+  }else if(D == 4){
+    d = "Donderdag";
+  }else if(D == 5){
+    d = "Vrijdag";
+  }else if(D == 6){
+    d = "Zaterdag";
+  }else if(D == 0){
+    d = "Zondag";
+  }
+
+  fill(255);
+  noStroke();
+  textSize(2*u);
+  textAlign(LEFT, BOTTOM); 
+  text(d, 0.5*u, height-3.5*u);  
 }
 
 function clock(){
@@ -86,6 +120,7 @@ function clock(){
 
   //seconds
   angle = a * s + start;
+  angle = map(millis(), sM, sM + 60000, sSm, sSm + TWO_PI);
   stroke(0, 0, 150);
   line(0, 0, ls*cos(angle), ls*sin(angle));
   arc(0, 0, rs, rs, start, angle);
