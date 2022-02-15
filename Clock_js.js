@@ -1,4 +1,4 @@
-55)let numbers = [];
+let numbers = [];
 
 let u;
 let l;
