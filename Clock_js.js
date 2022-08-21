@@ -23,7 +23,7 @@ function setup() {
 
 
 function draw() {
-  background(0);
+  background(170, 0, 0);
   days();
   digitalDay();
   for(i = 4; i <= 7; i++){
