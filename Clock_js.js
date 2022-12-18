@@ -31,6 +31,15 @@ function draw() {
   background(170, 0, 0);
   days();
   digitalDay();
+  
+  if(height < width){
+    u = height/15;
+    l = height/10;
+  }else{
+    u = width/15;
+    l = width/10;
+  }
+  
   for(i = 4; i <= 7; i++){
     numbers[i].show();
   }
