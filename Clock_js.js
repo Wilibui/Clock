@@ -10,8 +10,8 @@ function setup() {
     u = height/15;
     l = height/10;
   }else{
-    u = width/15;
-    l = width/10;
+    u = width/20;
+    l = width/15;
   }
   
   //time
@@ -36,8 +36,8 @@ function draw() {
     u = height/15;
     l = height/10;
   }else{
-    u = width/15;
-    l = width/10;
+    u = width/20;
+    l = width/15;
   }
   
   for(i = 4; i <= 7; i++){
