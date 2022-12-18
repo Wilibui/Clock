@@ -6,8 +6,13 @@ let l;
 function setup() {
   createCanvas(windowWidth, windowHeight);  
   noFill(); 
-  u = height/15;
-  l = height/10;
+  if(height < width){
+    u = height/15;
+    l = height/10;
+  }else{
+    u = width/15;
+    l = width/10;
+  }
   
   //time
   numbers[0] = new Numbers(-4.0*l, 0, l);
