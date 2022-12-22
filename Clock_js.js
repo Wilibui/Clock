@@ -28,7 +28,7 @@ function setup() {
 
 
 function draw() {
-  background(170, 0, 0);
+  background(127, 0, 0);
   days();
   digitalDay();
   
