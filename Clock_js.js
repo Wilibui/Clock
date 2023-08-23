@@ -3,16 +3,20 @@ let numbers = [];
 let u;
 let l;
 
+let desc;
+let temp;
+let pm;
+
+function preload() {
+  let url = "https://api.openweathermap.org/data/2.5/weather?q=Leuven&appid=201fecd1717242e4163b575f13bf6cf9&units=metric";
+  loadJSON(url, getData);
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);  
   noFill(); 
-  if(height < width){
-    u = height/15;
-    l = height/10;
-  }else{
-    u = width/20;
-    l = width/15;
-  }
+  u = height/15;
+  l = height/10;
   
   //time
   numbers[0] = new Numbers(-4.0*l, 0, l);
@@ -24,25 +28,24 @@ function setup() {
   numbers[5] = new Numbers(2.00*u, height - 2*u, 0.5*u);
   numbers[6] = new Numbers(4.00*u, height - 2*u, 0.5*u);
   numbers[7] = new Numbers(5.25*u, height - 2*u, 0.5*u);
+  //temp
+  numbers[8] = new Numbers(width - 3.75*u, height - 2*u, 0.5*u);
+  numbers[9] = new Numbers(width - 5*u, height - 2*u, 0.5*u);
 }
 
 
 function draw() {
   background(127, 0, 0);
+  
   days();
+  weather();
   digitalDay();
   
-  if(height < width){
-    u = height/15;
-    l = height/10;
-  }else{
-    u = width/20;
-    l = width/15;
-  }
-  
+  //date
   for(i = 4; i <= 7; i++){
     numbers[i].show();
   }
+  
   translate(width/2, height/2);
   digitalTime(); 
   for(i = 0; i <= 3; i++){
@@ -50,6 +53,40 @@ function draw() {
   } 
 }
 
+function weather(){
+  if(pm != minute()){
+    preload();
+  }
+  pm = minute();
+  
+  let absTemp = abs(temp);  
+  let temp1 = floor(absTemp/10);
+  let temp2 = absTemp - temp1*10;
+
+  numbers[8].update(temp2);
+  numbers[9].update(temp1);
+  if(absTemp >= 10){
+    numbers[9].show();
+  }
+  numbers[8].show();
+  
+  textSize(2.50*u);
+  textAlign(RIGHT, CENTER);
+  if(temp < 0){
+    stroke(255);
+    strokeWeight(u/6);
+    if(absTemp < 10){
+      line(width - 4.50*u, height - 2*u, width - 5*u, height - 2*u);
+    }else{
+      line(width - 5.75*u, height - 2*u, width - 6.25*u, height - 2*u);
+    }
+  }
+  
+  fill(255);
+  noStroke();
+  text("°",width - 2.00*u, height - 2*u, 0.5*u);
+  image(desc, width - 3*u, height - 3*u, 3*u, 3*u);
+}
 
 function digitalDay(){
   //days
@@ -191,4 +228,9 @@ function check(n, list){
   }else{
     noStroke(); 
   }  
+}
+
+function getData(data) {
+  desc = loadImage("https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
+  temp = round(data.main.temp);
 }
