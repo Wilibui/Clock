@@ -8,7 +8,7 @@ let temp;
 let pm;
 
 function preload() {
-  let url = "https://api.openweathermap.org/data/2.5/weather?q=Leuven&appid=201fecd1717242e4163b575f13bf6cf9&units=metric";
+  let url = "https://api.openweathermap.org/data/2.5/weather?q=Valencia&appid=201fecd1717242e4163b575f13bf6cf9&units=metric";
   loadJSON(url, getData);
 }
 
@@ -234,3 +234,4 @@ function getData(data) {
   desc = loadImage("https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
   temp = round(data.main.temp);
 }
+
