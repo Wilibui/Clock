@@ -1,4 +1,8 @@
 let numbers = [];
+let cityButtons = [];
+let showButtons = false;
+
+let startShowingButtons;
 
 let u;
 let l;
@@ -7,8 +11,13 @@ let desc;
 let temp;
 let pm;
 
+let city = "Benimaclet";
+let cities = ["Benimaclet", "Duffel", "Leuven"];
+let cityUpdated = false;
+
 function preload() {
-  let url = "https://api.openweathermap.org/data/2.5/weather?q=Benimaclet&appid=201fecd1717242e4163b575f13bf6cf9&units=metric";
+  let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=201fecd1717242e4163b575f13bf6cf9&units=metric";
+  print(url);
   loadJSON(url, getData);
 }
 
@@ -17,12 +26,16 @@ function setup() {
   noFill(); 
   u = height/15;
   l = height/10;
+
+  if(localStorage.getItem("city") != null){
+    city = localStorage.getItem("city");
+  }
   
   //time
-  numbers[0] = new Numbers(-4.0*l, 0, l);
-  numbers[1] = new Numbers(-1.5*l, 0, l);
-  numbers[2] = new Numbers(1.50*l, 0, l);
-  numbers[3] = new Numbers(4.00*l, 0, l);
+  numbers[0] = new Numbers(-4.0*l + width/2, height/2, l);
+  numbers[1] = new Numbers(-1.5*l + width/2, height/2, l);
+  numbers[2] = new Numbers(1.50*l + width/2, height/2, l);
+  numbers[3] = new Numbers(4.00*l + width/2, height/2, l);
   //date
   numbers[4] = new Numbers(0.75*u, height - 2*u, 0.5*u);
   numbers[5] = new Numbers(2.00*u, height - 2*u, 0.5*u);
@@ -31,6 +44,13 @@ function setup() {
   //temp
   numbers[8] = new Numbers(width - 3.75*u, height - 2*u, 0.5*u);
   numbers[9] = new Numbers(width - 5*u, height - 2*u, 0.5*u);
+
+  for (i = 0; i < cities.length; i++){
+    cityButtons[i] = new cityButton(width - 0.5*u, height - 3.5*u - i*0.5*u, cities[i]);
+    if(cities[i] == city){
+      cityButtons[i].selected = true;
+    }
+  }
 }
 
 
@@ -40,22 +60,96 @@ function draw() {
   days();
   weather();
   digitalDay();
-  
+  showWeatherButtons();
   //date
-  for(i = 4; i <= 7; i++){
-    numbers[i].show();
-  }
   
-  translate(width/2, height/2);
+  
+  
   digitalTime(); 
-  for(i = 0; i <= 3; i++){
-    numbers[i].show();
-  } 
+  
+
+  
 }
 
+function mousePressed(){
+  if(showButtons){
+    for (i = 0; i < cityButtons.length; i++){
+      if(cityButtons[i].mousePressed()){
+        for (j = 0; j < cityButtons.length; j++){
+          if(j != i){
+            cityButtons[j].selected = false;
+          }
+        }
+      }
+    }
+  }else{
+    let d = dist(mouseX, mouseY, width - 2.7*u, height - 2.8*u);
+    if(d < 0.25*u){
+      showButtons = true;
+    }
+
+    startShowingButtons = millis();
+  }
+}
+
+
+class cityButton{
+
+  constructor(x, y, c){
+    this.x = x;
+    this.y = y;
+    this.c = c;
+    this.selected = false;
+  }
+
+  show(){
+    fill(255);
+    noStroke();
+    textSize(0.5*u);
+    textAlign(RIGHT, BOTTOM);
+    text(this.c, this.x - 0.75*u, this.y);
+    stroke(255);
+    strokeWeight(u/20);
+    if(this.selected){
+      fill(255);
+      print("fill");
+    }else{
+      noFill();
+    }
+    circle(this.x - u/2, this.y - 0.25*u, 0.25*u);
+  }
+
+  mousePressed(){
+    let d = dist(mouseX, mouseY, this.x - u/2, this.y - 0.25*u);
+    if(d < 0.125*u){
+      this.selected = true;
+      city = this.c;
+      cityUpdated = true;
+      localStorage.setItem("city", city);
+
+      weather();
+
+      return true;
+    }
+  }
+}
+
+function showWeatherButtons(){
+  if(showButtons){
+    for (i = 0; i < cityButtons.length; i++){
+      cityButtons[i].show();
+    }
+    if(millis() - startShowingButtons > 5000){
+      showButtons = false;
+    }
+  }
+}
+
+
 function weather(){
-  if(pm != minute()){
+  if(pm != minute() || cityUpdated){
     preload();
+    cityUpdated = false;
   }
   pm = minute();
   
@@ -81,10 +175,11 @@ function weather(){
       line(width - 5.75*u, height - 2*u, width - 6.25*u, height - 2*u);
     }
   }
-  
-  fill(255);
-  noStroke();
-  text("°",width - 2.00*u, height - 2*u, 0.5*u);
+
+  noFill();
+  stroke(255);
+  strokeWeight(u/7);
+  circle(width - 2.7*u, height - 2.8*u, 0.5*u);
   image(desc, width - 3*u, height - 3*u, 3*u, 3*u);
 }
 
@@ -109,6 +204,10 @@ function digitalDay(){
   strokeWeight(u/6);
   stroke(255);
   line(3.1*u, height-3*u, 2.9*u, height-1*u);
+
+  for(i = 4; i <= 7; i++){
+    numbers[i].show();
+  }
 }
 
 function digitalTime(){
@@ -131,27 +230,31 @@ function digitalTime(){
   //dots
   strokeWeight(l/3);
   stroke(255);
-  point(0, -0.8*l);
-  point(0, 0.80*l); 
+  point(width/2, -0.8*l + height/2);
+  point(width/2, 0.80*l + height/2); 
+
+  for(i = 0; i <= 3; i++){
+    numbers[i].show();
+  } 
 }
 
 function days(){
   let date = new Date();
   let D = date.getDay();
   if(D == 1){
-    d = "Maandag";
+    d = "Monday";
   }else if(D == 2){
-    d = "Dinsdag";
+    d = "Tuesday";
   }else if(D == 3){
-    d = "Woensdag";
+    d = "Wednesday";
   }else if(D == 4){
-    d = "Donderdag";
+    d = "Thursday";
   }else if(D == 5){
-    d = "Vrijdag";
+    d = "Friday";
   }else if(D == 6){
-    d = "Zaterdag";
+    d = "Saturday";
   }else if(D == 0){
-    d = "Zondag";
+    d = "Sunday";
   }
 
   fill(255);
