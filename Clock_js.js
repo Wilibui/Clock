@@ -15,11 +15,6 @@ let city = "Benimaclet";
 let cities = ["Benimaclet", "Duffel", "Leuven"];
 let cityUpdated = false;
 
-function preload() {
-  let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=201fecd1717242e4163b575f13bf6cf9&units=metric";
-  print(url);
-  loadJSON(url, getData);
-}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);  
@@ -61,15 +56,9 @@ function draw() {
   weather();
   digitalDay();
   showWeatherButtons();
-  //date
-  
-  
-  
   digitalTime(); 
-  
-
-  
 }
+
 
 function mousePressed(){
   if(showButtons){
@@ -91,60 +80,6 @@ function mousePressed(){
     startShowingButtons = millis();
   }
 }
-
-
-class cityButton{
-
-  constructor(x, y, c){
-    this.x = x;
-    this.y = y;
-    this.c = c;
-    this.selected = false;
-  }
-
-  show(){
-    fill(255);
-    noStroke();
-    textSize(0.5*u);
-    textAlign(RIGHT, BOTTOM);
-    text(this.c, this.x - 0.75*u, this.y);
-    stroke(255);
-    strokeWeight(u/20);
-    if(this.selected){
-      fill(255);
-      print("fill");
-    }else{
-      noFill();
-    }
-    circle(this.x - u/2, this.y - 0.25*u, 0.25*u);
-  }
-
-  mousePressed(){
-    let d = dist(mouseX, mouseY, this.x - u/2, this.y - 0.25*u);
-    if(d < 0.125*u){
-      this.selected = true;
-      city = this.c;
-      cityUpdated = true;
-      localStorage.setItem("city", city);
-
-      weather();
-
-      return true;
-    }
-  }
-}
-
-function showWeatherButtons(){
-  if(showButtons){
-    for (i = 0; i < cityButtons.length; i++){
-      cityButtons[i].show();
-    }
-    if(millis() - startShowingButtons > 5000){
-      showButtons = false;
-    }
-  }
-}
-
 
 function weather(){
   if(pm != minute() || cityUpdated){
@@ -181,6 +116,22 @@ function weather(){
   strokeWeight(u/7);
   circle(width - 2.7*u, height - 2.8*u, 0.5*u);
   image(desc, width - 3*u, height - 3*u, 3*u, 3*u);
+}
+
+function preload() {
+  let url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=201fecd1717242e4163b575f13bf6cf9&units=metric";
+  loadJSON(url, getData);
+}
+
+function showWeatherButtons(){
+  if(showButtons){
+    for (i = 0; i < cityButtons.length; i++){
+      cityButtons[i].show();
+    }
+    if(millis() - startShowingButtons > 5000){
+      showButtons = false;
+    }
+  }
 }
 
 function digitalDay(){
@@ -322,6 +273,47 @@ class Numbers{
   }
   update(n){
     this.n = n;
+  }
+}
+
+class cityButton{
+
+  constructor(x, y, c){
+    this.x = x;
+    this.y = y;
+    this.c = c;
+    this.selected = false;
+  }
+
+  show(){
+    fill(255);
+    noStroke();
+    textSize(0.5*u);
+    textAlign(RIGHT, BOTTOM);
+    text(this.c, this.x - 0.75*u, this.y);
+    stroke(255);
+    strokeWeight(u/20);
+    if(this.selected){
+      fill(255);
+      print("fill");
+    }else{
+      noFill();
+    }
+    circle(this.x - u/2, this.y - 0.25*u, 0.25*u);
+  }
+
+  mousePressed(){
+    let d = dist(mouseX, mouseY, this.x - u/2, this.y - 0.25*u);
+    if(d < 0.125*u){
+      this.selected = true;
+      city = this.c;
+      cityUpdated = true;
+      localStorage.setItem("city", city);
+
+      weather();
+
+      return true;
+    }
   }
 }
 
