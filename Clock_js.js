@@ -17,6 +17,8 @@ let cityUpdated = false;
 
 
 function setup() {
+  frameRate(2);
+
   createCanvas(windowWidth, windowHeight);  
   noFill(); 
   u = height/15;
@@ -295,7 +297,6 @@ class cityButton{
     strokeWeight(u/20);
     if(this.selected){
       fill(255);
-      print("fill");
     }else{
       noFill();
     }
