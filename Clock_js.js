@@ -11,7 +11,7 @@ let desc;
 let temp;
 let pm;
 
-let city = "Benimaclet";
+let city = "Leuven";
 let cities = ["Benimaclet", "Duffel", "Leuven"];
 let cityUpdated = false;
 
@@ -330,5 +330,6 @@ function getData(data) {
   desc = loadImage("https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png");
   temp = round(data.main.temp);
 }
+
 
 
